@@ -30,9 +30,16 @@ function clean(html, label) {
     .replace(/<title>/, `<title>[${label}] `);
 }
 
-const pages = { 'index.html': 'Nueva', 'movimiento.html': 'Nueva · con movimiento', 'antes.html': 'Actual' };
-for (const [f, label] of Object.entries(pages)) {
-  fs.writeFileSync(path.join(out, f), clean(fs.readFileSync(path.join(__dirname, f), 'utf8'), label));
+// En la demo la portada fuerza vídeo y animaciones aunque el equipo tenga "reducir movimiento"
+// (Windows con efectos de animación desactivados). /accesible = comportamiento real de producción.
+const pages = {
+  'index.html': ['movimiento.html', 'Nueva'],
+  'movimiento.html': ['movimiento.html', 'Nueva'],
+  'accesible.html': ['index.html', 'Nueva · respeta reducir movimiento'],
+  'antes.html': ['antes.html', 'Actual']
+};
+for (const [f, [src, label]] of Object.entries(pages)) {
+  fs.writeFileSync(path.join(out, f), clean(fs.readFileSync(path.join(__dirname, src), 'utf8'), label));
 }
 
 fs.writeFileSync(path.join(out, 'robots.txt'), 'User-agent: *\nDisallow: /\n');
