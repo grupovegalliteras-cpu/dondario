@@ -1,0 +1,8 @@
+{
+  "buildCommand": "node preview/build-deploy.js",
+  "outputDirectory": "deploy",
+  "cleanUrls": true,
+  "headers": [
+    { "source": "/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
+  ]
+}
