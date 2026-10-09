@@ -7,6 +7,7 @@ http.createServer((req, res) => {
   if (p === '/') p = '/preview/index.html';
   if (p === '/antes') p = '/preview/antes.html';
   if (p === '/movimiento') p = '/preview/movimiento.html';
+  if (p === '/villa') p = '/preview/villa.html';
   if (p.startsWith('/wp-content/')) p = '/preview' + p; // espejo local de las fuentes
   const f = path.normalize(path.join(root, p));
   if (!f.startsWith(root) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { res.writeHead(404); return res.end('404'); }

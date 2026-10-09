@@ -26,4 +26,20 @@ fs.writeFileSync(path.join(__dirname, 'movimiento.css'), css);
 const shim = '<script>(function(){var m=window.matchMedia;window.matchMedia=function(q){return /prefers-reduced-motion/.test(q)?{matches:false,media:q,addEventListener:function(){},removeEventListener:function(){}}:m.call(window,q)}})();</script>';
 let motion = out.replace(/<link rel="stylesheet" id="mm-visual-css"[^>]*>/, '<link rel="stylesheet" id="mm-visual-css" href="/preview/movimiento.css?v=' + Date.now() + '">' + shim);
 fs.writeFileSync(path.join(__dirname, 'movimiento.html'), motion);
-console.log('preview/index.html y preview/movimiento.html listos');
+
+// Variante /villa: prueba con el timelapse de reforma (dist/media-villa/). Solo cambia el material del hero.
+// La villa está centrada en el clip: en escritorio panorámico se amplía el vídeo (122 %) anclado a la izquierda
+// para llevar la casa a la mitad derecha, se ocultan las 2 fotos decorativas (la taparían) y se aclara el overlay a la derecha.
+const H = '.home .entry-content>.gb-element-84a45700';
+const villaFix = '<script>window.mmVisual={media:"/dist/media-villa/"};</script><style>' +
+  H + '{background-image:url("/dist/media-villa/mm-hero-poster.webp");background-position:center}' +
+  '.mm-hero-media video{object-position:center}' +
+  H + ' .gb-element-0c29e940{display:none}' +
+  H + '::before{background:linear-gradient(90deg,rgba(18,20,26,.84) 0%,rgba(18,20,26,.55) 38%,rgba(18,20,26,.06) 100%),' +
+  'linear-gradient(180deg,rgba(18,20,26,.34) 0%,rgba(18,20,26,0) 30%,rgba(18,20,26,.7) 100%)}' +
+  '@media (min-width:1025px) and (min-aspect-ratio:3/2){' + H + '{background-size:122% auto;background-position:left center}' +
+  '.mm-hero-media video{width:122%;max-width:none;object-position:left center}}' +
+  '@media (max-width:767px){' + H + '{background-image:url("/dist/media-villa/mm-hero-poster-mobile.webp")}}</style>';
+const villa = motion.split('/dist/media/').join('/dist/media-villa/').replace('</head>', villaFix + '\n</head>');
+fs.writeFileSync(path.join(__dirname, 'villa.html'), villa);
+console.log('preview/index.html, movimiento.html y villa.html listos');

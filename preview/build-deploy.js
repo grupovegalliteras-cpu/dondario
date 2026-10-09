@@ -13,6 +13,7 @@ const copy = (from, to) => fs.cpSync(path.join(root, from), path.join(out, to), 
 copy('dist/mm-visual.css', 'dist/mm-visual.css');
 copy('dist/mm-visual.js', 'dist/mm-visual.js');
 copy('dist/media', 'dist/media');
+copy('dist/media-villa', 'dist/media-villa');
 copy('preview/wp-content', 'wp-content');
 copy('preview/movimiento.css', 'preview/movimiento.css');
 
@@ -36,6 +37,7 @@ const pages = {
   'index.html': ['movimiento.html', 'Nueva'],
   'movimiento.html': ['movimiento.html', 'Nueva'],
   'accesible.html': ['index.html', 'Nueva · respeta reducir movimiento'],
+  'villa.html': ['villa.html', 'Prueba vídeo villa'],
   'antes.html': ['antes.html', 'Actual']
 };
 for (const [f, [src, label]] of Object.entries(pages)) {
