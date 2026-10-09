@@ -46,8 +46,10 @@
     var conn = navigator.connection || {};
     var slowNet = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
     var desktop = w.matchMedia('(min-width: 768px)').matches;
+    // Vídeo vertical en móvil: desactivado por defecto; se activa con window.mmVisual.mobileVideo = true
+    var mobileVideo = !desktop && w.mmVisual && w.mmVisual.mobileVideo;
 
-    if (!reduceMotion && !slowNet && desktop) {
+    if (!reduceMotion && !slowNet && (desktop || mobileVideo)) {
       var start = function () { onIdle(function () { mountVideo(hero); }); };
       if (d.readyState === 'complete') start();
       else w.addEventListener('load', start, { once: true });
@@ -55,8 +57,9 @@
   }
 
   function mountVideo(hero) {
+    var sfx = mobileVideo ? '-mobile' : '';
     var wrap = d.createElement('div');
-    wrap.className = 'mm-hero-media';
+    wrap.className = 'mm-hero-media' + (mobileVideo ? ' mm-hero-media--mobile' : '');
     wrap.setAttribute('aria-hidden', 'true');
 
     var v = d.createElement('video');
@@ -70,9 +73,11 @@
     v.setAttribute('muted', '');
     v.setAttribute('playsinline', '');
     v.setAttribute('disablepictureinpicture', '');
-    v.setAttribute('poster', mediaBase + 'mm-hero-poster.webp');
+    v.setAttribute('poster', mediaBase + (mobileVideo ? 'mm-hero-poster-mobile.webp' : 'mm-hero-poster.webp'));
 
-    [['mm-hero.webm', 'video/webm'], ['mm-hero.mp4', 'video/mp4']].forEach(function (s) {
+    // MP4 (H.264) primero: decodificación por hardware en todos los navegadores, incluido Safari,
+    // que a veces anuncia WebM y luego no lo reproduce
+    [['mm-hero' + sfx + '.mp4', 'video/mp4'], ['mm-hero' + sfx + '.webm', 'video/webm']].forEach(function (s) {
       var src = d.createElement('source');
       src.src = mediaBase + s[0];
       src.type = s[1];

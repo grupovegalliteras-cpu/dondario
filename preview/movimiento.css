@@ -346,6 +346,9 @@ body {
     background: linear-gradient(180deg, rgba(18, 20, 26, .35) 0%, rgba(18, 20, 26, .55) 35%, rgba(18, 20, 26, .9) 72%, rgba(18, 20, 26, .96) 100%);
   }
   .mm-hero-media, .mm-hero-toggle { display: none; }
+  /* salvo si se activa el vídeo vertical (window.mmVisual.mobileVideo) */
+  .mm-hero-media.mm-hero-media--mobile { display: block; }
+  .mm-hero-media--mobile ~ .mm-hero-toggle { display: grid; }
   .home .gb-element-84a45700 .gb-element-b1efb6ba { padding-right: 1.25rem; }
   /* en móvil el botón flotante de WhatsApp ocupa esa zona */
   .mm-scroll { display: none; }

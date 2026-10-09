@@ -31,7 +31,7 @@ fs.writeFileSync(path.join(__dirname, 'movimiento.html'), motion);
 // La villa está centrada en el clip: en escritorio panorámico se amplía el vídeo (122 %) anclado a la izquierda
 // para llevar la casa a la mitad derecha, se ocultan las 2 fotos decorativas (la taparían) y se aclara el overlay a la derecha.
 const H = '.home .entry-content>.gb-element-84a45700';
-const villaFix = '<script>window.mmVisual={media:"/dist/media-villa/"};</script><style>' +
+const villaFix = '<script>window.mmVisual={media:"/dist/media-villa/",mobileVideo:true};</script><style>' +
   H + '{background-image:url("/dist/media-villa/mm-hero-poster.webp");background-position:center}' +
   '.mm-hero-media video{object-position:center}' +
   H + ' .gb-element-0c29e940{display:none}' +
@@ -39,7 +39,8 @@ const villaFix = '<script>window.mmVisual={media:"/dist/media-villa/"};</script>
   'linear-gradient(180deg,rgba(18,20,26,.34) 0%,rgba(18,20,26,0) 30%,rgba(18,20,26,.7) 100%)}' +
   '@media (min-width:1025px) and (min-aspect-ratio:3/2){' + H + '{background-size:122% auto;background-position:left center}' +
   '.mm-hero-media video{width:122%;max-width:none;object-position:left center}}' +
-  '@media (max-width:767px){' + H + '{background-image:url("/dist/media-villa/mm-hero-poster-mobile.webp")}}</style>';
+  '@media (max-width:767px){' + H + '{background-image:url("/dist/media-villa/mm-hero-poster-mobile.webp")}' +
+  H + '::before{background:linear-gradient(180deg,rgba(18,20,26,.3) 0%,rgba(18,20,26,.4) 35%,rgba(18,20,26,.82) 75%,rgba(18,20,26,.94) 100%)}}</style>';
 const villa = motion.split('/dist/media/').join('/dist/media-villa/').replace('</head>', villaFix + '\n</head>');
 fs.writeFileSync(path.join(__dirname, 'villa.html'), villa);
 console.log('preview/index.html, movimiento.html y villa.html listos');
